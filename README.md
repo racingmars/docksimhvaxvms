@@ -29,6 +29,12 @@ Conveniently this container now contains a VNC Server with X11 XDMCP Query. You 
 docker run -it --rm -p 5900:5900 tenox7/openvms73:latest
 ```
 
+Additionally, there is a web-based VNC client on port 8080.
+
+```sh
+docker run -it --rm -p 8080:8080 tenox7/openvms73:latest
+```
+
 Change resolution: `-e GEOMETRY=1920x1200`
 
 ## X11

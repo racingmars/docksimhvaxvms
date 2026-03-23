@@ -26,4 +26,6 @@ fi
 
 cd /data
 /openvms/vnc.sh >/openvms/vnc.log 2>&1 &
+/openvms/easy-novnc --addr :8080 --host localhost --port 5900 >/openvms/easy-novnc.log 2>&1 &
 exec /openvms/vax /openvms/vax.ini
+

@@ -1,3 +1,9 @@
+FROM golang:alpine AS easy-novnc-build
+WORKDIR /src
+RUN go mod init build && \
+    go get github.com/geek1011/easy-novnc@v1.1.0 && \
+    go build -o /bin/easy-novnc github.com/geek1011/easy-novnc
+
 FROM debian:bookworm-slim AS builder
 
 RUN apt-get update && apt-get install -y \
@@ -51,6 +57,7 @@ COPY vax.ini /openvms/vax.ini
 COPY entrypoint.sh /openvms/
 COPY vnc.sh /openvms/
 COPY dec/ /usr/share/fonts/X11/dec/
+COPY --from=easy-novnc-build /bin/easy-novnc /openvms/
 
 COPY --chmod=755 ps-wrapper.sh /usr/bin/ps-wrapper.sh
 RUN chmod +x /openvms/entrypoint.sh /openvms/vnc.sh && \
@@ -59,7 +66,7 @@ RUN chmod +x /openvms/entrypoint.sh /openvms/vnc.sh && \
 
 ENV GEOMETRY=1280x1024
 
-EXPOSE 23 21 513 514 177 5900
+EXPOSE 23 21 513 514 177 5900 8080
 
 VOLUME ["/data"]
 
